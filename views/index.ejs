@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .collapsible {
+            background-color: #0cbf53;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .active,
+        .collapsible:hover {
+            background-color: #0dae4d;
+        }
+
+        .content {
+            padding: 0 18px;
+            border: 10px;
+            display: none;
+            overflow: hidden;
+            background-color: #e6f8ed;
+        }
+
+        .eachtoken {
+            padding:20px;
+        }
+
+        /* The Modal Background */
+        .modal{
+            display: none;
+            position: fixed;
+            z-index: 1;
+            padding-top: 100px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgb(0,0,0);
+            background-color: rgb(0,0,0,0.4);
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaaaaa ;
+            float: right ;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>My Users</h2>
+
+    <% shoppers.forEach((shopper) => { %>
+        <button type="button" class="collapsible"><%= shopper.ShopperReference %></button>
+        <div class="content">
+            <% shopper.token.forEach((token)=> { %>
+
+            <div class="eachtoken"> 
+                <div>Token id: <%= token.token %></div>            
+                <% if( token.recurringProcessingModel == 'CardOnFile'||token.recurringProcessingModel == 'UnscheduledCardOnFile' ){ %>
+                     <button class="makePaymentButton">Make a Payment</button>
+                <% } %>  <button onclick="makeSchedule('<%= token.token %>')">Make a Schedule</button>
+                <div>Card Number: <%= token.firstEight %>****<%= token.lastFour %></div>
+                <div>Expiry: <%= token.expiryData %></div>
+                <div>Card Type: <%= token.cardPaymentMethod %></div>
+                <div>recurringProcessingModel: <%= token.recurringProcessingModel %></div>
+                <div>Sechdules: </div>
+            </div>
+            <% }); %>
+        </div>
+    <% }); %>
+
+
+    <!-- The Modal -->
+    <div id="amountInput" class="modal">
+    
+        <!-- Modal Content -->
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div>Amount:</div>
+            <div><input type="text"> USD</div>
+            <button>Confirm</button>
+    
+        </div>
+    
+    </div>
+
+   
+
+    <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function () {
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+
+
+        var modal = document.getElementById('amountInput');
+        var span = document.getElementsByClassName('close')[0];
+
+        var MakePaymentBtns = document.getElementsByClassName('makePaymentButton');
+        var idx;
+
+        for(idx = 0; idx < MakePaymentBtns.length; idx++) {
+            MakePaymentBtns[idx].addEventListener("click", function () {
+                   modal.style.display = "block";
+            })
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event){
+            if(event.target == modal){
+                modal.style.display = "none";
+            }
+        }
+
+        function makeSchedule(tokenid){
+            console.log(tokenid);
+            window.location.href = "/schedule/"+tokenid;
+        }
+    </script>
+
+  
+</body>
+
+</html>
