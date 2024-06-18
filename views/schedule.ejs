@@ -1,60 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-   <div>Token id: <%= token.token %></div>
-        <div>Card Number: <%= token.firstEight %>****<%= token.lastFour %>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
+        />
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body">
+                    <div>Token id: <%= token.token %></div>
+                    <div>
+                        Card Number: <%= token.firstEight %>****<%=
+                        token.lastFour %>
+                    </div>
+                    <div>Expiry: <%= token.expiryData %></div>
+                    <div>Card Type: <%= token.cardPaymentMethod %></div>
+                    <div>
+                        recurringProcessingModel: <%=
+                        token.recurringProcessingModel %>
+                    </div>
+                    <div>Shopper: <%= token.ShopperReference %></div>
+                </div>
+            </div>
+
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+
+            <!-- Set Interval Section -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Starting Time:</span>
+                        <input
+                            id="datetimeinput"
+                            type="datetime-local"
+                            value="2023-01-01T12:00"
+                        />
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Set Interval:</span>
+                        <input
+                            type="number"
+                            class="form-control"
+                            aria-label="Days"
+                            id="days"
+                            value="1"
+                        />
+                        <span class="input-group-text">Days</span>
+                        <input
+                            type="number"
+                            class="form-control"
+                            aria-label="Hours"
+                            id="hours"
+                        />
+                        <span class="input-group-text">Hours</span>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            aria-label="Minutes"
+                            id="minutes"
+                        />
+                        <span class="input-group-text">Minutes</span>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            aria-label="Seconds"
+                            id="seconds"
+                        />
+                        <span class="input-group-text">Seconds</span>
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            aria-label="Milliseconds"
+                            id="miliseconds"
+                        />
+                        <span class="input-group-text">Milliseconds</span>
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <span class="input-group-text"
+                            >Number of intervals:</span
+                        >
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            id="NumberOfIntervals"
+                            value="1"
+                        />
+                    </div>
+                    <button class="btn btn-primary" onclick="submittime()">
+                        Submit
+                    </button>
+                </div>
+            </div>
         </div>
-        <div>Expiry: <%= token.expiryData %>
-        </div>
-        <div>Card Type: <%= token.cardPaymentMethod %>
-        </div>
-        <div>recurringProcessingModel: <%= token.recurringProcessingModel %>
-        </div>
-        <div>Shopper: <%= token.ShopperReference %></div>
-        <div>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
-        <div>Starting time: <input id="datetimeinput" type="datetime-local" value="2023-01-01T12:00"></div>
-        <div>Interval: <input type="number" id="days" value="0"> days <input type="number" id="hours" value="0"> hours <input type="number" id="minutes" value="0"> minutes <input type="number" id="seconds" value="0"> seconds <input type="number" id="miliseconds" value="0"> miliseconds</div>
-        <div>Number of Intervals:  <input type="number" id="NumberOfIntervals" value="1"></div>
-        <button onclick="submittime()">submit</button>
 
         <script>
-            function submittime(){
-                var timevalue = document.getElementById('datetimeinput').value;
+            function submittime() {
+                var timevalue = document.getElementById("datetimeinput").value;
                 var startingDate = new Date(timevalue);
                 console.log(startingDate);
-                var days = document.getElementById('days').value;
-                var hours = document.getElementById('hours').value;
-                var minutes = document.getElementById('minutes').value;
-                var seconds = document.getElementById('seconds').value;
-                var miliseconds = document.getElementById('miliseconds').value;
-                var NumberOfIntervals = document.getElementById('NumberOfIntervals').value;
-                
-                var daysTimeValue = days == 0 ? 0 : days*24*60*60*1000 ;
-                var hoursTimeValue = hours == 0 ? 0 : hours  * 60 * 60 * 1000;
-                var minutesTimeValue = minutes == 0? 0 : minutes * 60 * 1000;
-                var secondsTimeValue = seconds == 0? 0 : seconds * 1000;
-                var milisecondsTimeValue = miliseconds == 0? 0: miliseconds;
+                var days = document.getElementById("days").value;
+                var hours = document.getElementById("hours").value;
+                var minutes = document.getElementById("minutes").value;
+                var seconds = document.getElementById("seconds").value;
+                var miliseconds = document.getElementById("miliseconds").value;
+                var NumberOfIntervals =
+                    document.getElementById("NumberOfIntervals").value;
 
-                var timeDiff = daysTimeValue + hoursTimeValue + minutesTimeValue + secondsTimeValue + milisecondsTimeValue;
+                var daysTimeValue = days == 0 ? 0 : days * 24 * 60 * 60 * 1000;
+                var hoursTimeValue = hours == 0 ? 0 : hours * 60 * 60 * 1000;
+                var minutesTimeValue = minutes == 0 ? 0 : minutes * 60 * 1000;
+                var secondsTimeValue = seconds == 0 ? 0 : seconds * 1000;
+                var milisecondsTimeValue = miliseconds == 0 ? 0 : miliseconds;
+
+                var timeDiff =
+                    daysTimeValue +
+                    hoursTimeValue +
+                    minutesTimeValue +
+                    secondsTimeValue +
+                    milisecondsTimeValue;
 
                 // var endDate = new Date(startingDate.getTime() + (timeDiff));
                 // console.log(endDate);
                 var updateScheduleItem = new Object();
-                updateScheduleItem.shopperreference =  '<%= token.ShopperReference %>';
-                updateScheduleItem.token =  '<%= token.token %>';
+                updateScheduleItem.shopperreference =
+                    "<%= token.ShopperReference %>";
+                updateScheduleItem.token = "<%= token.token %>";
                 console.log(updateScheduleItem);
 
                 var schedules = [];
 
-                for(let i = NumberOfIntervals; i > 0; i--){
-                    var endDate = new Date(startingDate.getTime() + (i*timeDiff));
+                for (let i = NumberOfIntervals; i > 0; i--) {
+                    var endDate = new Date(
+                        startingDate.getTime() + i * timeDiff
+                    );
                     var endDateString = endDate.toISOString();
-                    schedules.push(endDateString)
+                    schedules.push(endDateString);
                 }
 
                 console.log(schedules);
@@ -65,19 +158,19 @@
                     method: "POST",
                     body: JSON.stringify(updateScheduleItem),
                     headers: {
-                        "Content-type": "application/json; charset=UTF-8"
-                    }
-
+                        "Content-type": "application/json; charset=UTF-8",
+                    },
                 })
                     .then((response) => response.json())
                     .then((json) => {
-                     
                         console.log(json);
-                    })
-
-
+                    });
             }
         </script>
-</body>
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
+        ></script>
+    </body>
 </html>
-
